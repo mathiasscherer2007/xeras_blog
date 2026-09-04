@@ -4,7 +4,9 @@
 	import { Input } from "$lib/components/ui/input/index.js";
 	import { Label } from "$lib/components/ui/label/index.js";
 	import Separator from "$lib/components/ui/separator/separator.svelte";
+
 	import { resolve } from "$app/paths";
+	import { fade } from "svelte/transition";
 
 	let password = $state('');
 	let passwordConfirm = $state('');
@@ -51,7 +53,9 @@
 				<span class="grid gap-2">
 					<span class="flex flex-row items-center justify-between">
 						<Label for="password_confirm">Confirm Password</Label>
-						<p class="text-sm leading-none font-medium text-red-400 transition">{passwordsMatch || password.length === 0 ? '' : 'passwords don\'t match'}</p>
+						{#if !passwordsMatch && password.length > 0}
+							<p in:fade={{ duration: 100 }} out:fade={{ duration: 100 }} class="text-sm leading-none font-medium text-red-400">passwords don't match</p>
+						{/if}
 					</span>
 					<Input bind:value={passwordConfirm} id="password_confirm" type="password" required />
 				</span>
