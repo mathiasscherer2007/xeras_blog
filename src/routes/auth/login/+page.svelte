@@ -22,7 +22,7 @@
 
 <Card.Root>
 	<Card.Header>
-		<Card.Title>Log In</Card.Title>
+		<Card.Title class="text-xl">Log In</Card.Title>
 		<Card.Description>Welcome back!</Card.Description>
 	</Card.Header>
 	<Card.Content>

@@ -21,6 +21,12 @@ export default defineConfig({
 				config: (config) => {
 					config.include.push('../drizzle.config.ts');
 				}
+			},
+
+			alias: {
+				'schemas': 'src/lib/schemas',
+				'services': 'src/lib/services',
+				'repositories': 'src/lib/repositories'
 			}
 		})
 	]
