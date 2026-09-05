@@ -23,7 +23,7 @@
 	let canSubmit = $state(false);
 
 	function checkPasswordMatch(): boolean {
-		if (password === passwordConfirm && password.length > 0) {
+		if (password === passwordConfirm && password.length >= 3) {
 			return true;
 		} else {
 			return false;
@@ -32,7 +32,7 @@
 
 	function checkValues(): void {
 		passwordsMatch = checkPasswordMatch();
-		if (username && email && passwordsMatch) {
+		if (username.length >= 3 && email && passwordsMatch) {
 			canSubmit = true;
 		} else {
 			canSubmit = false;
