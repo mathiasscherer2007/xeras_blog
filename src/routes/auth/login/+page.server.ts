@@ -1,11 +1,14 @@
 import { userLoginSchema } from 'schemas/User';
 import type { Actions } from './$types';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { flattenError } from 'zod';
+import { authService } from 'services/AuthService';
+import { InvalidCredentialsException } from '$lib/server/exceptions/Exceptions';
+import { resolve } from '$app/paths';
 
 export const actions: Actions = {
-	login: async ({ request }) => {
-		await new Promise(resolve => setTimeout(resolve, 3000));
+	login: async ({ request, cookies }) => {
+		await new Promise(resolve => setTimeout(resolve, 1000));
 
 		const data = await request.formData();
 
@@ -27,5 +30,20 @@ export const actions: Actions = {
 				].filter(Boolean)
 			})
 		}
+
+		try {
+			const response = await authService.authenticate(result.data.email, result.data.password);
+
+			cookies.set('access', response.accessToken, { path: '/', maxAge: response.accessTokenTTL });
+			cookies.set('refresh', response.refreshToken, { path: '/', maxAge: response.refreshTokenTTL });
+		} catch (error: unknown) {
+			if (error instanceof InvalidCredentialsException) {
+				return fail(error.statusCode, { error: [error.message] });
+			}
+
+			return fail(400, { error: ["Something went wrong."] });
+		}
+
+		throw redirect(303, resolve('/auth/signup'));
 	}
 };

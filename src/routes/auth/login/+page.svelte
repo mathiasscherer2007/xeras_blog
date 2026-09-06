@@ -8,6 +8,10 @@
 
 	import { resolve } from "$app/paths";
 	import { enhance } from "$app/forms";
+	import type { PageProps } from "./$types";
+	import { toast } from "svelte-sonner";
+
+	let { form }: PageProps = $props();
 
 	let password = $state('');
 	let email = $state('');
@@ -22,6 +26,16 @@
 			canSubmit = false;
 		}
 	}
+
+	$effect(() => {
+		if (form?.error) {
+			const message = form?.error?.[0];
+			if (message) {
+				toast.error(message);
+				password = '';
+			}
+		}
+	})
 </script>
 
 <Card.Root>
@@ -42,11 +56,11 @@
 			<div class="flex flex-col gap-6">
 				<span class="grid gap-2">
 					<Label for="email">Email</Label>
-					<Input bind:value={email} id="email" type="email" placeholder="example@email.com" required />
+					<Input bind:value={email} name="email" id="email" type="email" placeholder="example@email.com" required />
 				</span>
 				<span class="grid gap-2">
 					<Label for="password">Password</Label>
-					<Input bind:value={password} id="password" type="password" required />
+					<Input bind:value={password} name="password" id="password" type="password" required />
 				</span>
 			</div>
 			<Separator></Separator>

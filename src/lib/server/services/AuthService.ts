@@ -3,7 +3,7 @@ import type { UserRepository } from "repositories/user/UserRepository";
 import type { TokenService } from "./TokenService/TokenService";
 import { drizzleUserRepository } from "repositories/user/DrizzleUserRepository";
 import { jwtTokenService } from "./TokenService/JWTTokenService";
-import { EmailAlreadyExistsException } from "../exceptions/Exceptions";
+import { EmailAlreadyExistsException, InvalidCredentialsException } from "../exceptions/Exceptions";
 import { UserRole } from "../models/enums/UserRole";
 import { User } from "../models/User";
 import { TokenType } from "../models/enums/TokenType";
@@ -47,13 +47,31 @@ export class AuthService {
 		}
 	}
 
-	public async authenticate(): Promise<{
+	public async authenticate(email: string, password: string): Promise<{
 		accessToken: string,
 		accessTokenTTL: number,
 		refreshToken: string,
 		refreshTokenTTL: number,
 	}> {
-		// pass
+		const user = await this.userRepository.findByEmail(email);
+		if (!user) {
+			throw new InvalidCredentialsException();
+		}
+
+		const passwordHash = crypto.createHash('sha256').update(password).digest('hex');
+		if (passwordHash !== user.getPasswordHash()) {
+			throw new InvalidCredentialsException();
+		}
+
+		const accessToken = this.tokenService.sign(user, TokenType.ACCESS);
+		const refreshToken = this.tokenService.sign(user, TokenType.REFRESH);
+
+		return {
+			accessToken: accessToken,
+			accessTokenTTL: this.tokenService.getAccessTokenTTL(),
+			refreshToken: refreshToken,
+			refreshTokenTTL: this.tokenService.getRefreshTokenTTL()
+		}		
 	}
 }
 

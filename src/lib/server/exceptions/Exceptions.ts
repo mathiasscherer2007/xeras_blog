@@ -19,3 +19,9 @@ export class EmailAlreadyExistsException extends Exception {
         super('An account with this email address already exists.', 409);
     }
 }
+
+export class InvalidCredentialsException extends Exception {
+    constructor() {
+        super('Invalid email or password.', 401);
+    }
+}
