@@ -1,4 +1,4 @@
-import { userLoginSchema } from 'schemas/user';
+import { userLoginSchema } from 'schemas/User';
 import type { Actions } from './$types';
 import { fail } from '@sveltejs/kit';
 import { flattenError } from 'zod';

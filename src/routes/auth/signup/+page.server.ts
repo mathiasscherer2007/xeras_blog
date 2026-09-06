@@ -1,11 +1,14 @@
-import { userSignupSchema } from 'schemas/user';
+import { userSignupSchema } from 'schemas/User';
 import type { Actions } from './$types';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { flattenError } from 'zod';
+import { authService } from 'services/AuthService';
+import { resolve } from '$app/paths';
+import { EmailAlreadyExistsException } from '$lib/server/exceptions/Exceptions';
 
 export const actions: Actions = {
-	signup: async ({ request }) => {
-		await new Promise(resolve => setTimeout(resolve, 3000));
+	signup: async ({ request, cookies }) => {
+		await new Promise(resolve => setTimeout(resolve, 1000));
 		
 		const data = await request.formData();
 
@@ -33,5 +36,20 @@ export const actions: Actions = {
 				].filter(Boolean)
 			})
 		}
+
+		try {
+			const response = await authService.register(result.data.username, result.data.email, result.data.password);
+
+			cookies.set('access', response.accessToken, { path: '/', maxAge: response.accessTokenTTL });
+			cookies.set('refresh', response.refreshToken, { path: '/', maxAge: response.refreshTokenTTL });
+		} catch (error: unknown) {
+			if (error instanceof EmailAlreadyExistsException) {
+				return fail(error.statusCode, { error: [error.message] });
+			}
+
+			return fail(400, { error: ["Something went wrong."] });
+		}
+
+		throw redirect(303, resolve('/auth/login'));
 	}
 };
