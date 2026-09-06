@@ -24,9 +24,9 @@ export default defineConfig({
 			},
 
 			alias: {
-				'schemas': 'src/lib/schemas',
-				'services': 'src/lib/services',
-				'repositories': 'src/lib/repositories'
+				'schemas': 'src/lib/server/schemas',
+				'services': 'src/lib/server/services',
+				'repositories': 'src/lib/server/repositories'
 			}
 		})
 	]

@@ -1,24 +1,20 @@
-import { userSignupSchema } from 'schemas/user';
+import { userLoginSchema } from 'schemas/user';
 import type { Actions } from './$types';
 import { fail } from '@sveltejs/kit';
 import { flattenError } from 'zod';
 
 export const actions: Actions = {
-	signup: async ({ request }) => {
+	login: async ({ request }) => {
 		await new Promise(resolve => setTimeout(resolve, 3000));
-		
+
 		const data = await request.formData();
 
-		const username = data.get('username')?.toString().trim() ?? '';
 		const email = data.get('email')?.toString().trim() ?? '';
 		const password = data.get('password')?.toString() ?? '';
-		const passwordConfirm = data.get('passwordConfirm')?.toString() ?? '';
 
-		const result = userSignupSchema.safeParse({
-			username: username,
+		const result = userLoginSchema.safeParse({
 			email: email,
-			password: password,
-			passwordConfirm: passwordConfirm
+			password: password
 		});
 
 		if (!result.success) {
@@ -26,10 +22,8 @@ export const actions: Actions = {
 
 			return fail(422, {
 				error: [
-					flattened.fieldErrors.username?.[0],
 					flattened.fieldErrors.email?.[0],
-					flattened.fieldErrors.password?.[0],
-					flattened.fieldErrors.passwordConfirm?.[0]
+					flattened.fieldErrors.password?.[0]
 				].filter(Boolean)
 			})
 		}

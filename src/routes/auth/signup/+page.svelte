@@ -3,8 +3,9 @@
 	import { Button } from "$lib/components/ui/button/index.js";
 	import { Input } from "$lib/components/ui/input/index.js";
 	import { Label } from "$lib/components/ui/label/index.js";
-	import Separator from "$lib/components/ui/separator/separator.svelte";
+	import { Separator } from "$lib/components/ui/separator/index.js";
 	import { toast } from "svelte-sonner";
+	import { Spinner } from "$lib/components/ui/spinner/index.js";
 
 	import { resolve } from "$app/paths";
 	import { enhance } from "$app/forms";
@@ -21,6 +22,7 @@
 	let email = $state('');
 
 	let canSubmit = $state(false);
+	let submitting = $state(false);
 
 	function checkPasswordMatch(): boolean {
 		if (password === passwordConfirm && password.length >= 3) {
@@ -55,10 +57,18 @@
 		<Card.Description>Welcome aboard!</Card.Description>
 	</Card.Header>
 	<Card.Content>
-		<form use:enhance action="?/signup" method="POST" class="flex flex-col gap-5" autocomplete="off" oninput={checkValues}>
+		<form use:enhance={() => {
+			submitting = true;
+
+			return async ({ update }) => {
+				await update();
+				submitting = false;
+				canSubmit = false;
+			}
+		}} action="?/signup" method="POST" class="flex flex-col gap-5" autocomplete="off" oninput={checkValues}>
 			<div class="flex flex-col gap-6">
 				<span class="grid gap-2">
-					<Label for="email">Username</Label>
+					<Label for="username">Username</Label>
 					<Input bind:value={username} id="username" name="username" type="text" required />
 					<Card.Description>Username must be 3 characters or longer</Card.Description>
 				</span>
@@ -81,9 +91,15 @@
 					<Input bind:value={passwordConfirm} id="passwordConfirm" name="passwordConfirm" type="password" required />
 				</span>
 			</div>
-			<Separator></Separator>
+			<Separator />
 			<div class="flex flex-col gap-2">
-				<Button type="submit" disabled={!canSubmit}>Sign Up</Button>
+				<Button type="submit" variant={submitting ? 'outline' : 'default'} disabled={!(canSubmit && !submitting)}>
+					{#if submitting}
+						<Spinner />
+					{:else}
+						Sign Up
+					{/if}
+				</Button>
 				<span class="flex items-center justify-center">
 					Already have an account?
 					<Button type="button" href={resolve('/auth/login')} variant="link" class="dark:text-chart-2 underline">Log In</Button>
