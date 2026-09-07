@@ -2,7 +2,7 @@ import jwt, { type JwtPayload } from 'jsonwebtoken';
 import type { TokenService } from './TokenService';
 import { TokenType } from '$lib/server/models/enums/TokenType';
 import type { User } from '$lib/server/models/User';
-import { InvalidTokenException } from '$lib/server/exceptions/Exceptions';
+import { InvalidTokenException, TokenExpiredException, TokenNotBeforeException } from '$lib/server/exceptions/Exceptions';
 import { env } from '$env/dynamic/private';
 
 export class JWTTokenService implements TokenService {
@@ -17,7 +17,12 @@ export class JWTTokenService implements TokenService {
 	public verify(token: string): JwtPayload {
 		try {
 			return jwt.verify(token, this.secret) as JwtPayload;
-		} catch {
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				if(error.name === 'TokenExpiredError') throw new TokenExpiredException();
+				else if(error.name === 'NotBeforeError') throw new TokenNotBeforeException();
+				else throw new InvalidTokenException();
+			}
 			throw new InvalidTokenException();
 		}
 	}
