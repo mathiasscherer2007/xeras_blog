@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { resolve } from "$app/paths";
+	import { resolve } from '$app/paths';
+	import { ArrowRight } from '@hugeicons/core-free-icons';
+	import { HugeiconsIcon } from '@hugeicons/svelte';
 
 	interface Props {
 		title: string;
@@ -18,10 +20,22 @@
 		day: createdAt.getDate().toString().padStart(2, '0'),
 		slug: slug
 	})}
+	class="border p-2 rounded-xl"
 >
-	<h1>{title}</h1>
-	{#if creator}
-		<p>by {creator}</p>
-	{/if}
-	<p>{createdAt.toLocaleDateString('en-us')}</p>
+	<div class="group flex items-center justify-between">
+		<div>
+			<h1
+				class="mb-2 max-w-9/10 text-xl text-ellipsis whitespace-nowrap underline decoration-1 underline-offset-2 transition-colors group-hover:text-chart-2"
+			>
+				{title}
+			</h1>
+			{#if creator}
+				<p>by {creator}</p>
+			{/if}
+			<p class="opacity-70">{createdAt.toLocaleDateString('en-us')}</p>
+		</div>
+		<div class="flex h-full items-center justify-center transition group-hover:text-chart-2">
+			<HugeiconsIcon size="30" icon={ArrowRight} />
+		</div>
+	</div>
 </a>
