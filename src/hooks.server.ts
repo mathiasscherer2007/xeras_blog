@@ -7,7 +7,7 @@ import { redirect, type Handle } from '@sveltejs/kit';
 import { drizzleUserRepository } from 'repositories/user/DrizzleUserRepository';
 import { jwtTokenService } from 'services/TokenService/JWTTokenService';
 
-const adminRoutes: Array<RouteId> = [];
+const adminRoutes: Array<RouteId> = ['/blog/create'];
 
 const protectedRoutes: Array<RouteId> = ['/blog', ...adminRoutes];
 

@@ -44,6 +44,6 @@ export const actions: Actions = {
 			return fail(400, { error: ["Something went wrong."] });
 		}
 
-		throw redirect(303, resolve('/auth/signup'));
+		throw redirect(303, resolve('/blog'));
 	}
 };
