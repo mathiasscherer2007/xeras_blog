@@ -29,6 +29,20 @@
       "when": 1788701726724,
       "tag": "0003_smiling_morbius",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1788808479591,
+      "tag": "0004_fat_dark_phoenix",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1788825865801,
+      "tag": "0005_steep_stature",
+      "breakpoints": true
     }
   ]
 }

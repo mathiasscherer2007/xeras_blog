@@ -17,15 +17,17 @@ export class DrizzleUserRepository implements UserRepository {
 			return null;
 		}
 
+		const result = rows[0];
+
 		return new User(
-			rows[0].email,
-			rows[0].passwordHash,
-			rows[0].username,
-			rows[0].role as UserRole,
-			rows[0].id,
-			rows[0].status as UserStatus,
-			rows[0].createdAt,
-			rows[0].updatedAt
+			result.email,
+			result.passwordHash,
+			result.username,
+			result.role as UserRole,
+			result.id,
+			result.status as UserStatus,
+			result.createdAt,
+			result.updatedAt
 		);
 	}
 
@@ -63,7 +65,7 @@ export class DrizzleUserRepository implements UserRepository {
 	}
 
 	public async update(user: User): Promise<void> {
-		const primitives = {
+		const values = {
 			id: user.getId(),
 			email: user.getEmail(),
 			username: user.getUsername(),
@@ -71,7 +73,7 @@ export class DrizzleUserRepository implements UserRepository {
 			role: user.getRole(),
 			status: user.getStatus()
 		};
-		await db.update(users).set(primitives).where(eq(users.id, primitives.id));
+		await db.update(users).set(values).where(eq(users.id, values.id));
 	}
 }
 
