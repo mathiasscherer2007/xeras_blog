@@ -23,5 +23,5 @@
 	{#if creator}
 		<p>by {creator}</p>
 	{/if}
-	<p>{createdAt}</p>
+	<p>{createdAt.toLocaleDateString('en-us')}</p>
 </a>

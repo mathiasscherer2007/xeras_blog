@@ -11,5 +11,5 @@
 	<title>Xera's Blog</title>
 </svelte:head>
 
-<ModeWatcher />
+<ModeWatcher track={false} />
 {@render children()}
