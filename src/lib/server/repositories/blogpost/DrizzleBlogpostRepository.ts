@@ -3,6 +3,7 @@ import { Blogpost } from '$lib/server/models/Blogpost';
 import { desc, eq } from 'drizzle-orm';
 import type { BlogpostRepository } from './BlogpostRepository';
 import { db } from 'db';
+import { convertToSlug } from '$lib/utils/ConvertToSlug';
 
 export class DrizzleBlogpostRepository implements BlogpostRepository {
 	async getLatestBlogposts(amount?: number): Promise<Array<Blogpost> | null> {
@@ -18,7 +19,7 @@ export class DrizzleBlogpostRepository implements BlogpostRepository {
 			return null;
 		}
 
-		const latestBlogposts = rows.map(blogpost => new Blogpost(blogpost.title, blogpost.content, blogpost.ownerId, blogpost.id, blogpost.createdAt, blogpost.updatedAt));
+		const latestBlogposts = rows.map(blogpost => new Blogpost(blogpost.title, blogpost.content, blogpost.ownerId, blogpost.id, blogpost.slug, blogpost.createdAt, blogpost.updatedAt));
 
 		return latestBlogposts;
 	}
@@ -37,6 +38,7 @@ export class DrizzleBlogpostRepository implements BlogpostRepository {
 			result.content,
 			result.ownerId,
 			result.id,
+			result.slug,
 			result.createdAt,
 			result.updatedAt
 		);
@@ -49,16 +51,37 @@ export class DrizzleBlogpostRepository implements BlogpostRepository {
 			return null;
 		}
 
-		const searchedBlogposts = rows.map((blogpost) => new Blogpost(blogpost.title, blogpost.content, blogpost.ownerId, blogpost.id, blogpost.createdAt, blogpost.updatedAt));
+		const searchedBlogposts = rows.map((blogpost) => new Blogpost(blogpost.title, blogpost.content, blogpost.ownerId, blogpost.id, blogpost.slug, blogpost.createdAt, blogpost.updatedAt));
 
 		return searchedBlogposts;
+	}
+
+	async findBySlug(slug: string): Promise<Blogpost | null> {
+		const rows = await db.select().from(blogposts).where(eq(blogposts.slug, slug));
+
+		if (rows.length === 0) {
+			return null;
+		}
+
+		const result = rows[0];
+
+		return new Blogpost(
+			result.title,
+			result.content,
+			result.ownerId,
+			result.id,
+			result.slug,
+			result.createdAt,
+			result.updatedAt
+		);
 	}
 
 	async save(blogpost: Blogpost): Promise<Blogpost> {
 		await db.insert(blogposts).values({
 			ownerId: blogpost.getOwnerId(),
 			title: blogpost.getTitle(),
-			content: blogpost.getContent()
+			content: blogpost.getContent(),
+			slug: convertToSlug(blogpost.getTitle())
 		});
 
 		return blogpost;

@@ -43,6 +43,13 @@
       "when": 1788825865801,
       "tag": "0005_steep_stature",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1788865280321,
+      "tag": "0006_stiff_wendigo",
+      "breakpoints": true
     }
   ]
 }

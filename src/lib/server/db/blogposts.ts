@@ -12,8 +12,9 @@ export const blogposts = mysqlTable(
 	{
 		id: varchar('id', { length: 36 }).primaryKey().default(sql`(UUID())`),
 		ownerId: varchar('ownerId', { length: 36 }).references(() => users.id, { onDelete: 'restrict' }).notNull(),
-		title: varchar('title', { length: 100 }).notNull(),
+		title: varchar('title', { length: 255 }).notNull(),
 		content: text('content').notNull(),
+		slug: varchar('slug', { length: 255 }).notNull(),
 		createdAt: timestamp('created_at').defaultNow().notNull(),
 		updatedAt: timestamp('updated_at').defaultNow().notNull()
 	}

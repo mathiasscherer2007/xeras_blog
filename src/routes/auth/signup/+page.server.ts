@@ -50,6 +50,6 @@ export const actions: Actions = {
 			return fail(400, { error: ["Something went wrong."] });
 		}
 
-		throw redirect(303, resolve('/auth/login'));
+		throw redirect(303, resolve('/blog'));
 	}
 };

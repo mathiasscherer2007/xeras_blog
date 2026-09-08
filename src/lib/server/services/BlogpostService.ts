@@ -4,6 +4,7 @@ import { Blogpost } from "../models/Blogpost";
 import { BlogpostOverview } from "../models/BlogpostOverview";
 import { drizzleBlogpostRepository } from "repositories/blogpost/DrizzleBlogpostRepository";
 import { drizzleUserRepository } from "repositories/user/DrizzleUserRepository";
+import type { User } from "../models/User";
 
 export class BlogpostService {
 	constructor( 
@@ -23,9 +24,24 @@ export class BlogpostService {
 			return null;
 		}
 
-		const overviews = rows.map(post => new BlogpostOverview(post.getId(), post.getTitle(), post.getOwnerId(), post.getCreatedAt() ?? new Date()));
+		const overviews = rows.map(post => new BlogpostOverview(post.getId(), post.getSlug(), post.getTitle(), post.getOwnerId(), post.getCreatedAt() ?? new Date()));
 
 		return overviews;
+	}
+
+	public async getBySlug(slug: string): Promise<{ blogpost: Blogpost, owner: User | null } | null> {
+		const blogpost = await this.blogpostRepository.findBySlug(slug);
+
+		if (!blogpost) {
+			return null;
+		}
+
+		const owner = await this.userRepository.findById(blogpost?.getOwnerId() ?? '');
+
+		return {
+			blogpost: blogpost,
+			owner: owner
+		}
 	}
 }
 

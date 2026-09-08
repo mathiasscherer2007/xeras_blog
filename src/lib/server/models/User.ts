@@ -53,4 +53,15 @@ export class User {
 	public setStatus(status: UserStatus): void {
 		this.status = status;
 	}
+
+	public getPrimitive() {
+		return {
+			id: this.getId(),
+			email: this.getEmail(),
+			passwordHash: this.getPasswordHash(),
+			username: this.getUsername(),
+			role: this.getRole(),
+			status: this.getStatus()
+		}
+	}
 }
