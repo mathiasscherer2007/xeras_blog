@@ -6,7 +6,7 @@
 
 <div>
 	<Header />
-	<main>
+	<main class="w-full flex items-center justify-center pt-5">
 		{@render children()}
 	</main>
 </div>

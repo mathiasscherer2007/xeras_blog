@@ -5,7 +5,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 	const blogpostOverviews = await blogpostService.getOverviews(10);
 
 	return { 
-		blogpostOverviews: blogpostOverviews?.map(overview => overview.getPrimitive()),
+		blogpostOverviews: blogpostOverviews?.map(overview => overview.getPrimitve()),
 		userRole: locals.user?.role
 	 };
 };
