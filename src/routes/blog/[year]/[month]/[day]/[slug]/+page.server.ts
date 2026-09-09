@@ -6,7 +6,7 @@ export const load: PageServerLoad = async ({ params }) => {
 	const blogpost = await blogpostService.getBySlug(params.slug);
 
 	if (!blogpost || !blogpost.blogpost) {
-		throw error(404);
+		throw error(404, 'Not found');
 	}
 
 	return {
