@@ -31,6 +31,21 @@
 		margin: calc(var(--spacing) * 3) 0;
 	}
 
+	.blog-content :global(pre) {
+		background-color: var(--color-card);
+		padding: var(--spacing);
+		border: 1px solid var(--color-border);
+		border-radius: var(--spacing);
+		margin: calc(var(--spacing) * 3) 0;
+	}
+
+	.blog-content :global(pre code) {
+		background-color: none;
+		border: none;
+		border-radius: none;
+		margin: none;
+	}
+
 	.blog-content :global(h2) {
 		font-size: var(--text-2xl);
 		margin: calc(var(--spacing) * 5) 0 calc(var(--spacing) * 2);

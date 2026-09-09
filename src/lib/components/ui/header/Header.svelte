@@ -8,7 +8,7 @@
 
 </script>
 
-<header class="h-18 border-b flex items-center justify-center">
+<header class="h-18 border-b flex items-center justify-center sticky top-0 backdrop-blur bg-background/50">
 	<div class="flex items-center justify-between w-300 max-w-full mx-5">
 		<div>
 			<a href={resolve('/blog')} class="font-bold text-lg hover:text-chart-2">XerasBlog.com</a>
