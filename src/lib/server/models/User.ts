@@ -1,7 +1,19 @@
 import { UserRole } from './enums/UserRole';
 import { UserStatus } from './enums/UserStatus';
+import type { Model } from './Model';
 
-export class User {
+interface UserPrimitive {
+	id: string;
+	email: string;
+	passwordHash: string;
+	username: string;
+	role: UserRole;
+	status: UserStatus;
+	createdAt?: Date;
+	updatedAt?: Date;
+}
+
+export class User implements Model<UserPrimitive> {
 	private id: string;
 	private email: string;
 	private passwordHash: string;
@@ -54,14 +66,16 @@ export class User {
 		this.status = status;
 	}
 
-	public getPrimitive() {
+	public getPrimitve(): UserPrimitive {
 		return {
-			id: this.getId(),
-			email: this.getEmail(),
-			passwordHash: this.getPasswordHash(),
-			username: this.getUsername(),
-			role: this.getRole(),
-			status: this.getStatus()
-		}
+			id: this.id,
+			email: this.email,
+			passwordHash: this.passwordHash,
+			role: this.role,
+			status: this.status,
+			username: this.username,
+			createdAt: this.createdAt,
+			updatedAt: this.updatedAt
+		};
 	}
 }

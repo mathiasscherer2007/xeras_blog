@@ -1,0 +1,1 @@
+ALTER TABLE `blogposts` ADD CONSTRAINT `blogposts_slug_unique` UNIQUE(`slug`);

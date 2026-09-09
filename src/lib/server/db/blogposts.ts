@@ -14,7 +14,7 @@ export const blogposts = mysqlTable(
 		ownerId: varchar('ownerId', { length: 36 }).references(() => users.id, { onDelete: 'restrict' }).notNull(),
 		title: varchar('title', { length: 255 }).notNull(),
 		content: text('content').notNull(),
-		slug: varchar('slug', { length: 255 }).notNull(),
+		slug: varchar('slug', { length: 255 }).notNull().unique(),
 		createdAt: timestamp('created_at').defaultNow().notNull(),
 		updatedAt: timestamp('updated_at').defaultNow().notNull()
 	}

@@ -23,9 +23,9 @@
 	class="border p-2 rounded-xl"
 >
 	<div class="group flex items-center justify-between">
-		<div>
+		<div class="flex-1 max-w-9/10">
 			<h1
-				class="mb-2 max-w-9/10 text-xl text-ellipsis whitespace-nowrap underline decoration-1 underline-offset-2 transition-colors group-hover:text-chart-2"
+				class="mb-2 overflow-x-clip text-xl text-ellipsis whitespace-nowrap underline decoration-1 underline-offset-2 transition-colors group-hover:text-chart-2"
 			>
 				{title}
 			</h1>
@@ -34,7 +34,7 @@
 			{/if}
 			<p class="opacity-70">{createdAt.toLocaleDateString('en-us')}</p>
 		</div>
-		<div class="flex h-full items-center justify-center transition group-hover:text-chart-2">
+		<div class="flex h-full items-center justify-center transition group-hover:text-chart-2 ml-2">
 			<HugeiconsIcon size="30" icon={ArrowRight} />
 		</div>
 	</div>

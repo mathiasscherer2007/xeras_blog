@@ -50,6 +50,20 @@
       "when": 1788865280321,
       "tag": "0006_stiff_wendigo",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1788916257078,
+      "tag": "0007_oval_spirit",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1788916311077,
+      "tag": "0008_damp_havok",
+      "breakpoints": true
     }
   ]
 }

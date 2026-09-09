@@ -1,6 +1,17 @@
-import { convertToSlug } from "$lib/utils/ConvertToSlug";
+import { convertToSlug } from '$lib/utils/ConvertToSlug';
+import type { Model } from './Model';
 
-export class Blogpost {
+interface BlogpostPrimitve {
+	id: string;
+	ownerId: string;
+	title: string;
+	content: string;
+	slug: string;
+	createdAt?: Date;
+	updatedAt?: Date;
+}
+
+export class Blogpost implements Model<BlogpostPrimitve> {
 	private id: string;
 	private ownerId: string;
 	private title: string;
@@ -49,15 +60,15 @@ export class Blogpost {
 		return this.updatedAt;
 	}
 
-	public getPrimitive() {
+	public getPrimitve(): BlogpostPrimitve {
 		return {
-			id: this.getId(),
-			ownerId: this.getOwnerId(),
-			slug: this.getSlug(),
-			title: this.getTitle(),
-			content: this.getContent(),
-			createdAt: this.getCreatedAt(),
-			updatedAt: this.getUpdatedAt(),
-		}
+			id: this.id,
+			ownerId: this.ownerId,
+			slug: this.slug,
+			title: this.title,
+			content: this.content,
+			createdAt: this.createdAt,
+			updatedAt: this.updatedAt
+		};
 	}
 }
