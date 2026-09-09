@@ -7,19 +7,18 @@
 	let { data }: PageProps = $props();
 </script>
 
-{#snippet creator(username: string)}
-	<p>By {username}</p>
+{#snippet footer(username?: string, publishDate: Date)}
+	<Separator class="my-1" />
+	<p class="mb-5 text-right">By {username ?? 'unknown'} | {publishDate.toLocaleDateString('en-us')}</p> 
 {/snippet}
 
 <div class="flex flex-col gap-3 w-200 mx-3 text-justify overflow-y-auto scrollbar-thin">
-	<h1 class="text-3xl font-semibold">{data.blogpost.title}</h1>
-	<Separator />
+	<h1 class="text-3xl font-semibold text-center max-w-4/5 mx-auto">{data.blogpost.title}</h1>
+	<Separator class="my-1" />
 	<div class="blog-content flex flex-col gap-1">
 		{@html data.blogpost.content}
 	</div>
-	{#if data.owner}
-		{@render creator(data.owner.username)}
-	{/if}
+	{@render footer(data.owner?.username, data.blogpost.createdAt?)}
 </div>
 
 <style>
@@ -44,6 +43,15 @@
 		border: none;
 		border-radius: none;
 		margin: none;
+	}
+
+	.blog-content :global(blockquote) {
+		border-left: 2px solid var(--color-primary);
+		padding: var(--spacing) calc(var(--spacing) * 4);
+		font-style: italic;
+		background-color: var(--color-card);
+		border-top-right-radius: calc(var(--spacing) * 2);
+		border-bottom-right-radius: calc(var(--spacing) * 2);
 	}
 
 	.blog-content :global(h2) {
