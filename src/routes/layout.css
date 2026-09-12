@@ -131,3 +131,7 @@
 button {
 	cursor: pointer;
 }
+
+body::selection {
+	background-color: var(--color-primary);
+}

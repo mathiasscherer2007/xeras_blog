@@ -77,12 +77,24 @@ export class DrizzleBlogpostRepository implements BlogpostRepository {
 	}
 
 	async save(blogpost: Blogpost): Promise<Blogpost> {
+		let slug = convertToSlug(blogpost.getTitle());
+		let slugExists = await this.findBySlug(slug);
+
+		let suffix = 1;
+		while (slugExists) {
+			slug = `${convertToSlug(blogpost.getTitle())}-${suffix}`;
+			slugExists = await this.findBySlug(slug);
+			suffix++;
+		}
+
 		await db.insert(blogposts).values({
 			ownerId: blogpost.getOwnerId(),
 			title: blogpost.getTitle(),
 			content: blogpost.getContent(),
-			slug: convertToSlug(blogpost.getTitle())
+			slug: slug
 		});
+
+		blogpost.setSlug(slug);
 
 		return blogpost;
 	}

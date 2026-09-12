@@ -20,12 +20,12 @@
 		day: createdAt.getDate().toString().padStart(2, '0'),
 		slug: slug
 	})}
-	class="border p-2 rounded-xl"
+	class="border py-2 px-3 rounded-xl"
 >
 	<div class="group flex items-center justify-between">
 		<div class="flex-1 max-w-9/10">
 			<h1
-				class="mb-2 overflow-x-clip text-xl text-ellipsis whitespace-nowrap underline decoration-1 underline-offset-2 transition-colors group-hover:text-chart-2"
+				class="mb-2 overflow-x-clip text-xl text-ellipsis whitespace-nowrap transition-colors group-hover:text-chart-2"
 			>
 				{title}
 			</h1>

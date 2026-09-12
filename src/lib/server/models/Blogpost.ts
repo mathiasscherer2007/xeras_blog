@@ -60,6 +60,10 @@ export class Blogpost implements Model<BlogpostPrimitve> {
 		return this.updatedAt;
 	}
 
+	public setSlug(newSlug: string): void {
+		this.slug = newSlug;
+	}
+
 	public getPrimitve(): BlogpostPrimitve {
 		return {
 			id: this.id,

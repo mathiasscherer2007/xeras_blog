@@ -81,9 +81,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 		const isAdminRoute = adminRoutes.some((route) => event.url.pathname.startsWith(route));
 		if (isAdminRoute) {
-			if (event.locals.user?.role == UserRole.ADMIN) {
-				console.log("welcome in!");
-			} else {
+			if (event.locals.user?.role != UserRole.ADMIN) {
 				throw redirect(303, protectedRoutes[0]);
 			}
 		}

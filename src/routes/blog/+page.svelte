@@ -11,7 +11,7 @@
 	let { data }: PageProps = $props();
 </script>
 
-<div class="flex flex-col gap-2 w-250 mx-3 overflow-y-auto scrollbar-thin">
+<div class="flex flex-col gap-2 w-250 mx-3 overflow-y-auto scrollbar-thin mb-5">
 	{#if data.userRole === 'admin'}
 		<Button href={resolve('/blog/create')}><HugeiconsIcon icon={Plus} />Create Blogpost</Button>
 		<Separator class="my-2" />
