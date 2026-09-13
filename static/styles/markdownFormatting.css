@@ -55,8 +55,9 @@
 }
 
 .blog-content ol {
-	list-style-type: number;
-	padding-left: calc(var(--spacing) * 5);
+	list-style-type: decimal;
+	list-style-position: outside;
+    padding-left: 2.5rem;
 }
 .blog-content ol li::marker {
 	color: var(--color-chart-2);

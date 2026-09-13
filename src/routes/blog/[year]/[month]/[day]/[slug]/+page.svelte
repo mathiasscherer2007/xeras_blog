@@ -2,6 +2,8 @@
 	/* eslint-disable svelte/no-at-html-tags */
 	import { Separator } from "$lib/components/ui/separator/index";
 	import type { PageProps } from "./$types";
+	import { renderUnsafeMarkdown, sanitizeMarkdown } from "$lib/utils/MarkdownUtils";
+	import { Spinner } from "$lib/components/ui/spinner/index";
 
 	let { data }: PageProps = $props();
 </script>
@@ -19,7 +21,13 @@
 	<h1 class="text-3xl font-semibold text-center max-w-4/5 mx-auto">{data.blogpost.title}</h1>
 	<Separator class="my-1" />
 	<div class="blog-content flex flex-col gap-1">
-		{@html data.blogpost.content}
+		{#await renderUnsafeMarkdown(data.blogpost.content)}
+			<span class="w-full flex items-center justify-center h-10">
+				<Spinner />
+			</span>
+		{:then content} 
+			{@html sanitizeMarkdown(content)}
+		{/await}
 	</div>
 	{@render footer(data.blogpost.createdAt ?? new Date(), data.owner?.username)}
 </div>
